@@ -36,7 +36,7 @@ router.post('/' , (req , res) => {
 })
 
 
-//ACTUALIZAR PRODUCTO POR BODY UTILIZANDO PARAMS
+//ACTIALIZAR PRODUCTO POR BODY UTILIZANDO PARAMS
 router.put('/:pid' , async (req , res) => {
     let product = req.body;
     let id = req.params.pid;

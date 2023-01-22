@@ -82,12 +82,6 @@ class CartManager {
             console.log(err.message);
         }
     }
-
-
-
-
-
-
 }
 
 export default CartManager;
