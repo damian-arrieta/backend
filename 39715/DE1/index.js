@@ -4,7 +4,15 @@ class ProductManager {
     }
 
     addProduct = (title, description, price, thumbnail, code, stock) => {
-        if (this.products.find(product => product.code !== code) || this.products.length === 0) {
+        let codeExist = false;
+
+        this.products.forEach((product) => {
+            if (product.code === code) {
+                codeExist = true
+            } 
+        });
+
+        if (!codeExist) {
             if (title && description && price && thumbnail && code && stock) {
                 const product = {
                     title: title,
@@ -51,3 +59,4 @@ productManager.addProduct('Producto 2', 'Descripcion', 1, 'Imagen no cargada', '
 productManager.getProducts();
 productManager.getProductsById(2);
 productManager.getProductsById(5);
+productManager.addProduct('Producto', 'Descripcion', 1, 'Imagen no cargada', 'Codigo 2', 1);
