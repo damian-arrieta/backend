@@ -1,49 +1,44 @@
 class ProductManager {
+
+    #products
+
     constructor () {
-        this.products = [];
+        this.#products = [];
     }
 
     addProduct = (title, description, price, thumbnail, code, stock) => {
-        let codeExist = false;
-
-        this.products.forEach((product) => {
-            if (product.code === code) {
-                codeExist = true
-            } 
-        });
-
-        if (!codeExist) {
-            if (title && description && price && thumbnail && code && stock) {
-                const product = {
-                    title: title,
-                    description: description,
-                    price: price,
-                    thumbnail: thumbnail,
-                    code: code,
-                    stock: stock,
-                    id: this.products.length + 1
-                }
-                this.products.push(product);
-            }
-            else {
-                console.log('Error: Deben completarse todos los campos');
-            }
+        if (!title || !description || !price || !thumbnail || !code || !stock) {
+            console.error('Deben completarse todos los campos');
         }
-        else {
-            console.log('Error: El campo "Code" ya existe');
+
+        const codeExist = this.#products.filter(product => product.code === code);
+
+        if (codeExist) {
+            console.error('El campo "Code" ya existe');
         }
+
+        const product = {
+            title: title,
+            description: description,
+            price: price,
+            thumbnail: thumbnail,
+            code: code,
+            stock: stock,
+            id: this.#products.length + 1
+        }
+        this.#products.push(product);
     }
 
     getProducts = () => {
-        console.log(this.products);
+        console.log(this.#products);
     }
 
     getProductsById = (productId) => {
-        const productExist = this.products.find((product) => product.id === productId);
-        let result = this.products.filter(product => product.id === productId);
+        const productExist = this.#products.find((product) => product.id === productId);
+        let result = this.#products.filter(product => product.id === productId);
 
         if (!productExist) {
-            console.log('Not found');
+            console.error('Not found');
             return;
         }
 
