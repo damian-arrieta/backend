@@ -1,12 +1,20 @@
-const fs = require('fs');
+import ManagerUsuarios from './managerUsuarios.js';
 
-const fecha = new Date().toString();
+const manager = new ManagerUsuarios();
 
-fs.writeFile('./fechaYhora.txt', fecha, (error) => {
-    if (error) return console.log('Error');
-})
+const env = async () => {
+    let consulta1 = await manager.consultarUsuarios();
+    console.log(consulta1);
 
-fs.readFile('./fechaYhora.txt', 'utf-8', (error, resultado) => {
-    if (error) return console.log('Error');
-    console.log(resultado)
-})
+    const usuario = {
+        nombre: 'Damian',
+        apellido: 'Arrieta',
+        edad: 28,
+        curso: 'Backend'
+    }
+
+    let result = await manager.crearUsuario(usuario);
+    console.log(result);
+}
+
+env();
