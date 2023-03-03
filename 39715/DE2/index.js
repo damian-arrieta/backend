@@ -1,9 +1,9 @@
 import ProductManager from "./ProductManager.js";
 
-const manager = new ProductManager();
+const manager = new ProductManager('./products.json');
 
 const test = async () => {
-    console.log(await manager.getProduct());
+    console.log(await manager.getProducts());
 
     const product = {
         title: 'Producto 1',
@@ -16,7 +16,7 @@ const test = async () => {
 
     await manager.addProducts(product);
 
-    console.log(await manager.getProduct());
+    console.log(await manager.getProducts());
 
     console.log(await manager.getProductById(1));
 
@@ -32,7 +32,7 @@ const test = async () => {
 
     await manager.updateProducts(1, productUpdated);
 
-    console.log(await manager.getProduct());
+    console.log(await manager.getProducts());
 
 }
 

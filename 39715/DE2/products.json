@@ -1,0 +1,20 @@
+[
+/t{
+/t/t"title": "Producto 1 Actualizado",
+/t/t"description": "Descripcion",
+/t/t"price": 1,
+/t/t"thumbnail": "Sin Imagen",
+/t/t"code": "Producto1",
+/t/t"stock": 1,
+/t/t"id": 1
+/t},
+/t{
+/t/t"title": "Producto 1",
+/t/t"description": "Descripcion",
+/t/t"price": 1,
+/t/t"thumbnail": "Sin Imagen",
+/t/t"code": "Producto1",
+/t/t"stock": 1,
+/t/t"id": 2
+/t}
+]
