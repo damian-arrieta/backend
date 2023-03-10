@@ -40,48 +40,46 @@ class ProductManager {
 
     addProducts = async (product) => {
         const db = await this.getProducts();
-
+    
         try {
-            let newId = Math.max(db.map(product => product.id)) +1;
-
+            let newId = Math.max(...db.map(product => product.id), 0) + 1;
+            if (isNaN(newId) || newId === undefined) {
+                newId = 1;
+            }
+    
             const newProduct = { ...product, id: newId };
-
+    
             db.push(newProduct);
-
+    
             await this.writeFile(db);
-
+    
         }
-
+    
         catch (err) {
             console.log(err.message);
         }
-
     }
 
 
     getProductById = async (id, product) => {
         const products = await this.getProducts();
-
-        const newProduct = product;
-
+    
         try {
-            const updateProducts = products.map((product) => {
-                if (product.id === id) {
-                    return { ...product, ...newProduct };
-                }
-
-                else {
-                    return { ...product }
-                }
-            });
-
-            await this.writeFile(updateProducts);
-        }
-
-        catch (err) {
+            const productToUpdate = products.find(p => p.id === id);
+            if (!productToUpdate) {
+                console.log(`Product with ID ${id} not found`);
+                return;
+            }
+    
+            const updatedProduct = { ...productToUpdate, ...product };
+            const updatedProducts = products.map(p => (p.id === id ? updatedProduct : p));
+            await this.writeFile(updatedProducts);
+    
+            return updatedProduct;
+        } catch (err) {
             console.log(err.message);
         }
-    }
+    };
 
 
     updateProducts = async (id, product) => {
