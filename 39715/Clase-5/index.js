@@ -1,20 +1,17 @@
-import ManagerUsuarios from './managerUsuarios.js';
-
-const manager = new ManagerUsuarios();
-
-const env = async () => {
-    let consulta1 = await manager.consultarUsuarios();
-    console.log(consulta1);
-
-    const usuario = {
-        nombre: 'Damian',
-        apellido: 'Arrieta',
-        edad: 28,
-        curso: 'Backend'
-    }
-
-    let result = await manager.crearUsuario(usuario);
+function getRandomInt(min, max) {
+    let result = Math.random() * (max - min) + min;
     console.log(result);
-}
+  }
 
-env();
+  getRandomInt(0, 20);
+
+  let object = {};
+
+  for(let i = 0; i <= 10000; i++) {
+    const randomNumber = Math.floor(Math.random() * 20 + 1);
+
+    if(!object[randomNumber]) object[randomNumber] = 1;
+    else object[randomNumber]++;
+  }
+
+  console.log(object);
