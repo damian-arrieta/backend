@@ -8,8 +8,6 @@ class ProductManager {
         this.path = path;
     }
 
-
-
     writeFile = async (data) => {
         try {
             await fs.promises.writeFile(
@@ -21,7 +19,6 @@ class ProductManager {
             console.log(err);
         }
     }
-
 
     getProducts = async () => {
         try {
@@ -37,82 +34,55 @@ class ProductManager {
         }
     }
 
-
-    addProducts = async (product) => {
+    addProduct = async (product) => {
         const db = await this.getProducts();
-    
+
         try {
             let newId = Math.max(...db.map(product => product.id), 0) + 1;
             if (isNaN(newId) || newId === undefined) {
                 newId = 1;
             }
-    
+
             const newProduct = { ...product, id: newId };
-    
+
             db.push(newProduct);
-    
+
             await this.writeFile(db);
-    
+
         }
-    
+
         catch (err) {
             console.log(err.message);
         }
     }
 
-
-    getProductById = async (id, product) => {
+    getProductById = async (id) => {
         const products = await this.getProducts();
-    
+
         try {
-            const productToUpdate = products.find(p => p.id === id);
-            if (!productToUpdate) {
+            const product = products.find(p => p.id === id);
+            if (!product) {
                 console.log(`Product with ID ${id} not found`);
-                return;
+                return {};
             }
-    
-            const updatedProduct = { ...productToUpdate, ...product };
-            const updatedProducts = products.map(p => (p.id === id ? updatedProduct : p));
-            await this.writeFile(updatedProducts);
-    
-            return updatedProduct;
+
+            return product;
         } catch (err) {
             console.log(err.message);
         }
     };
 
-
-    updateProducts = async (id, product) => {
-
+    updateProduct = async (id, product) => {
         const products = await this.getProducts();
-        
-        const newProduct = product;
-
-        try {
-            const updateProducts = products.map((product) => {
-                if (product.id === id) {
-                    return { ...product, ...newProduct };
-                }
-                else {
-                    return { ...product }
-                }
-            })
-
-            await this.writeFile(updateProducts);
-
-        }
-
-        catch (err) {
-            console.log(err.message);
-        }
+        const updatedProducts = products.map(p => (p.id === id ? { ...p, ...product } : p));
+        await this.writeFile(updatedProducts);
     }
-
 
     deleteProduct = async (id) => {
         let products = await this.getProducts();
 
         try {
-            products = products.filter(product => product.id != id);
+            products = products.filter(product => product.id !== id);
             await this.writeFile(products);
         }
 
@@ -120,14 +90,11 @@ class ProductManager {
             console.log(err.message);
         }
     }
-
 }
-
 
 let products = new ProductManager('products.txt');
 
 const test = async () => {
-
     let product = {
         title: 'Producto 1',
         description: 'Sin Descripcion',
@@ -137,7 +104,7 @@ const test = async () => {
         stock: 1
     };
 
-    await products.addProducts(product);
+    await products.addProduct(product);
 
     product = {
         title: 'Producto 2',
@@ -148,7 +115,7 @@ const test = async () => {
         stock: 1
     }
 
-    await products.addProducts(product);
+    await products.addProduct(product);
 
     product = {
         title: 'Producto 3',
@@ -159,7 +126,7 @@ const test = async () => {
         stock: 1
     }
 
-    await products.addProducts(product);
+    await products.addProduct(product);
 
     product = {
         title: 'Producto 4',
@@ -170,7 +137,7 @@ const test = async () => {
         stock: 1
     }
 
-    await products.addProducts(product);
+    await products.addProduct(product);
 
     product = {
         title: 'Producto 5',
@@ -181,7 +148,9 @@ const test = async () => {
         stock: 1
     }
 
-    await products.addProducts(product);
+    await products.addProduct(product);
 }
- test();
+
+test();
+
 module.exports = ProductManager;
